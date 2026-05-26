@@ -34,4 +34,4 @@ client/.env
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+*.sw?server/.env
