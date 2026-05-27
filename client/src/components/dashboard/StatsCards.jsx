@@ -1,8 +1,8 @@
 const StatsCards = ({ stats }) => {
   const data = [
-    { title: "Total Interviews", value: stats?.interviews ?? 0, sub: "+3 this week" },
-    { title: "Best Score", value: stats?.score ? `${stats.score}%` : "0%", sub: "Frontend role" },
-    { title: "Resumes", value: stats?.resumes ?? 0, sub: "Uploaded" },
+    { title: "Total Interviews", value: stats?.interviews ?? 0, sub: stats?.interviews > 0 ? "Sessions completed" : "No sessions yet" },
+    { title: "Avg Score", value: stats?.score ? `${stats.score}%` : "0%", sub: stats?.score > 0 ? "Keep it up!" : "Complete an interview" },
+    { title: "Resumes", value: stats?.resumes ?? 0, sub: stats?.resumes > 0 ? "Uploaded" : "No resumes yet" },
   ]
 
   return (

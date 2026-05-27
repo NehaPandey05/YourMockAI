@@ -25,7 +25,7 @@ router.get("/:userId", async (req, res) => {
     res.json({
       user,
       activities,
-      interviews,
+      sessions:interviews,
       resumes,
     });
   } catch (err) {
