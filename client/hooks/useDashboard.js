@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { getDashboardData } from "../services/dashboardServices.js"
 import useAuth from "./useAuth"
 
@@ -8,12 +8,13 @@ const useDashboard = () => {
   const [resumeCount, setResumeCount] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [refreshKey, setRefreshKey] = useState(0)   // ← ADD THIS
+
+  // Call this after any action that should update the dashboard
+  const refresh = useCallback(() => setRefreshKey(k => k + 1), [])
 
   useEffect(() => {
-    if (!user) {
-      setLoading(false)
-      return
-    }
+    if (!user) { setLoading(false); return }
 
     let isMounted = true
     const controller = new AbortController()
@@ -28,21 +29,16 @@ const useDashboard = () => {
           setResumeCount(data.resumes?.length ?? 0)
         }
       } catch (err) {
-        if (isMounted && err.name !== "CanceledError" && err.code !== "ERR_CANCELED") {
+        if (isMounted && err.name !== "CanceledError" && err.code !== "ERR_CANCELED")
           setError(err.message || "Failed to load dashboard")
-        }
       } finally {
         if (isMounted) setLoading(false)
       }
     }
 
     loadDashboard()
-
-    return () => {
-      isMounted = false
-      controller.abort()
-    }
-  }, [user])
+    return () => { isMounted = false; controller.abort() }
+  }, [user, refreshKey])  // ← ADD refreshKey here
 
   const scoredSessions = sessions.filter(s => typeof s.score === "number")
   const stats = {
@@ -53,7 +49,7 @@ const useDashboard = () => {
     resumes: resumeCount,
   }
 
-  return { sessions, setSessions, stats, loading, error }
+  return { sessions, setSessions, stats, loading, error, refresh }  // ← expose refresh
 }
 
 export default useDashboard
