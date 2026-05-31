@@ -78,7 +78,8 @@ const [isListening, setIsListening] = useState(false)
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           role,
-          messages: [{ role: "user", content: "Start the interview, ask me the first question." }]
+          messages: [{ role: "user", content: "Start the interview, ask me the first question." }],
+       userId: user._id
         })
       })
       const data = await res.json()

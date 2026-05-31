@@ -1,6 +1,7 @@
 import express from "express"
 import Groq from "groq-sdk"
 import dotenv from "dotenv"
+import Interview from "../models/Interview.js"
 dotenv.config()
 
 const router = express.Router()
@@ -37,6 +38,19 @@ Your rules:
     const reply = response.choices[0].message.content
 
     const isComplete = reply.includes("INTERVIEW_COMPLETE")
+    if (isComplete) {
+  // extract score from reply — looks for a number before /100
+  const scoreMatch = reply.match(/(\d+)\/100/)
+  const score = scoreMatch ? parseInt(scoreMatch[1]) : 0
+
+  // save interview to MongoDB
+  await Interview.create({
+    userId:   req.body.userId,   
+    role:     req.body.role,      
+    score:    score,             
+    feedback: reply              
+  })
+}
 
     res.json({ reply, isComplete })
 
