@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from "react"
+import useAuth  from "../../hooks/useAuth"
 
 const SetupStage = ({ role, setRole, setStage }) => {
   const roles = [
@@ -68,7 +69,8 @@ const SetupStage = ({ role, setRole, setStage }) => {
 
 
 const InterviewStage = ({ role, messages, setMessages, currentReply, setCurrentReply, answer, setAnswer, isLoading, setIsLoading, setStage, isComplete, setIsComplete }) => {
-const [isListening, setIsListening] = useState(false)
+ const { user } = useAuth()
+  const [isListening, setIsListening] = useState(false)
   useEffect(() => {
   const startInterview = async () => {
     setIsLoading(true)
@@ -79,7 +81,7 @@ const [isListening, setIsListening] = useState(false)
         body: JSON.stringify({
           role,
           messages: [{ role: "user", content: "Start the interview, ask me the first question." }],
-       userId: user._id
+       userId: user.id
         })
       })
       const data = await res.json()
@@ -108,7 +110,7 @@ const [isListening, setIsListening] = useState(false)
       const res = await fetch("http://localhost:5000/api/interview/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ role, messages: newMessages })
+        body: JSON.stringify({ role, messages: newMessages,userId:user.id})
       })
       const data = await res.json()
       setCurrentReply(data.reply)
