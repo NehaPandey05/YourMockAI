@@ -6,6 +6,7 @@ import cors from "cors"
 import authRoutes from "./routes/authRoutes.js"
 import interviewRoutes from "./routes/interviewRoutes.js"
 import dashboardRoutes from "./routes/dashboardRoutes.js"  
+import resumeRoutes from "./routes/resumeRoutes.js"
 
 const app = express()
 
@@ -19,6 +20,7 @@ app.use(express.json())
 app.use("/api/interview", interviewRoutes)
 app.use("/api/auth", authRoutes)
 app.use("/api/dashboard", dashboardRoutes) 
+app.use("/api/resumes", resumeRoutes)
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected"))

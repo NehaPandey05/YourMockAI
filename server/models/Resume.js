@@ -5,8 +5,12 @@ const resumeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  fileUrl: String,
+  fileName: String,
+  fileType: String,
+  extractedText: String,
   analysis: String,
+  strengths: [String],
+  improvements: [String],
   score: Number,
 }, { timestamps: true });
 
