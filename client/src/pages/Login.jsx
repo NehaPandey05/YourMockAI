@@ -30,12 +30,37 @@ const Login = () => {
         return;
       }
 
-      if (res.ok && data.token)  {
-        // ✅ store full user
-     localStorage.setItem("token", data.token)
-        // ✅ redirect
-        navigate("/dashboard");
-      } else {
+     if (res.ok && data.token)  {
+
+
+  localStorage.setItem(
+    "token",
+    data.token
+  );
+
+
+  // save user id for report page
+  localStorage.setItem(
+    "userId",
+    data.user?._id || data._id
+  );
+
+
+  console.log(
+    "LOGIN DATA:",
+    data
+  );
+
+
+  console.log(
+    "USER ID SAVED:",
+    data.user?._id || data._id
+  );
+
+
+  navigate("/dashboard");
+
+} else {
         alert(data.message || "Login failed");
       }
     } catch (err) {

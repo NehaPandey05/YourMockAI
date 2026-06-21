@@ -37,13 +37,22 @@ router.post("/signup", async (req, res) => {
     });
 
     await user.save();
+    const token = jwt.sign(
+  {
+    id: user._id,
+    name: user.name,
+    email: user.email
+  },
+  process.env.JWT_SECRET,
+  { expiresIn: "7d" }
+);
 
     console.log("✅ USER SAVED:", user);
-
-    res.json({
-      message: "Signup successful",
-      user,
-    });
+res.json({
+  message: "Signup successful",
+  token,
+  user
+});
 
   } catch (err) {
     console.log("❌ ERROR:", err);
@@ -87,6 +96,7 @@ console.log("SECRET:", process.env.JWT_SECRET)
 res.json({
   message: "Login successful",
   token,
+   user
 })
 
   } catch (err) {

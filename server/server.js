@@ -7,6 +7,8 @@ import authRoutes from "./routes/authRoutes.js"
 import interviewRoutes from "./routes/interviewRoutes.js"
 import dashboardRoutes from "./routes/dashboardRoutes.js"  
 import resumeRoutes from "./routes/resumeRoutes.js"
+import interviewHistory from "./routes/interviewHistory.js"
+import reportRoutes from "./routes/reportRoutes.js"
 
 const app = express()
 
@@ -21,6 +23,8 @@ app.use("/api/interview", interviewRoutes)
 app.use("/api/auth", authRoutes)
 app.use("/api/dashboard", dashboardRoutes) 
 app.use("/api/resumes", resumeRoutes)
+app.use("/api/history", interviewHistory)
+app.use("/api/report", reportRoutes)
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected"))

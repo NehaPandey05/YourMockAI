@@ -23,15 +23,19 @@ const Signup = () => {
         body: JSON.stringify({ name, email, password }),
       });
 
-      const data = await res.json();
+     const data = await res.json();
 
-      if (res.ok) {
-        // ✅ store userId
-        localStorage.setItem("userId", data.user._id);
+if (res.ok) {
 
-        // ✅ redirect
-        navigate("/dashboard");
-      } else {
+  localStorage.setItem("token", data.token);
+
+  localStorage.setItem(
+    "userId",
+    data.user._id
+  );
+
+  navigate("/dashboard");
+}else {
         alert(data.message || "Signup failed");
       }
     } catch (err) {

@@ -6,6 +6,7 @@ import Dashboard from "../pages/Dashboard";
 import Interview from "../pages/Interview";
 import Resume from "../pages/Resume";
 import Report from "../pages/Report";
+import PracticeHistory from "../pages/PracticeHistory";
 
 import DashboardLayout from "../Layout/DashboardLayout";
 
@@ -24,6 +25,7 @@ const AppRoutes = () => {
         <Route index element={<Dashboard />} />
         <Route path="interview" element={<Interview />} />
         <Route path="resume" element={<Resume />} />
+        <Route path="history" element={<PracticeHistory />} />
         <Route path="report" element={<Report />} />
 
       </Route>
